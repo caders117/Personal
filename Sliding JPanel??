@@ -1,0 +1,43 @@
+import  javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
+public class JPanelPaint {
+
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        JPanel panel = new JPanel();
+        JLabel lbl = new JLabel("Label");
+        JLabel img;
+
+        panel.setLayout(new BorderLayout());
+        panel.add(lbl, BorderLayout.NORTH);
+        panel.add(new JButton("TEST BUTTON"), BorderLayout.CENTER);
+        frame.add(panel);
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        BufferedImage bi = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = bi.createGraphics();
+        panel.paint(g);
+        try {
+            ImageIO.write(bi, "png", new File("test.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        frame.remove(panel);
+        try{
+            BufferedImage bf = ImageIO.read(new File("H:/My Documents/First Project/test.png"));
+            img = new JLabel(new ImageIcon(bf));
+            frame.add(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+}
