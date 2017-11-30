@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.*;
 
 public class JPanelPaint {
 
@@ -20,7 +21,7 @@ public class JPanelPaint {
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        int border = 1;
+
 
         BufferedImage bi = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = bi.createGraphics();
@@ -36,20 +37,21 @@ public class JPanelPaint {
             BufferedImage bf = ImageIO.read(new File("H:/My Documents/First Project/test.png"));
             img = new JLabel(new ImageIcon(bf));
             frame.add(img);
-            img.setBorder(new EmptyBorder(0, frame.getWidth()/2, 0, 0));
+            //img.setBorder(new EmptyBorder(0, frame.getWidth()/2, 0, 0));
+            Timer t = new Timer(100, new ActionListener(){
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            int border = 1;
+                            img.setBorder(new EmptyBorder(0, frame.getWidth() - border, 0, 0));
+                            border++;
+                        }
+                    });
+            t.setInitialDelay(100);
+            t.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Timer t = new Timer(100, new ActionListener(){
-            
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                img.setBorder(new EmptyBorder(0, frame.getWidth() - border, 0, 0));
-	               }
-	        });
-	           t.setInitialDelay(100);
-		t.start();
-	    }
-	
     }
+}
